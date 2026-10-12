@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Entraînement rallye</title>
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0b0e0c">
+<link rel="icon" href="icone-192.png"><link rel="apple-touch-icon" href="icone-192.png">
+<style>
+:root{color-scheme:dark;--fond:#0b0e0c;--carte:#141917;--texte:#e4eae6;--doux:#8e9a93;--ligne:#262e2a;--accent:#4c8760;--or:#d9a531}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--fond);color:var(--texte);font:16px/1.5 system-ui,"Segoe UI",sans-serif;padding:16px;box-sizing:border-box}
+main{background:var(--carte);border:1px solid var(--ligne);border-radius:14px;padding:24px;max-width:360px;width:100%;text-align:center}
+h1{font-size:1.4rem;margin:.4em 0}
+input{font:inherit;width:100%;box-sizing:border-box;padding:12px;border-radius:9px;border:1px solid var(--ligne);background:var(--fond);color:var(--texte);margin:10px 0}
+button{font:inherit;font-weight:700;width:100%;padding:12px;border-radius:9px;border:0;background:var(--accent);color:#fff}
+#msg{color:var(--doux)}
+</style></head><body>
+<main><img src="icone-192.png" width="88" height="88" alt=""><h1>Entraînement rallye</h1>
+<p id="msg">Chargement…</p>
+<form id="f" hidden><label for="code">Code d'accès</label><input id="code" type="password" autocomplete="current-password" autocapitalize="none" spellcheck="false"><button>Ouvrir</button></form></main>
+<script>
+const SEL = 'ebMOCBjrUThqmdBQR2GLeQ==', ITER = 200000;
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+if ('serviceWorker' in navigator) {
+  let recharge = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (!recharge && navigator.serviceWorker.controller) { recharge = true; location.reload(); } });
+  navigator.serviceWorker.register('sw.js').then(r => r.update()).catch(() => {});
+}
+async function deriver(code) {
+  const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(code), 'PBKDF2', false, ['deriveBits']);
+  return new Uint8Array(await crypto.subtle.deriveBits({ name: 'PBKDF2', salt: b64(SEL), iterations: ITER, hash: 'SHA-256' }, base, 256));
+}
+async function dechiffrer(raw) {
+  const k = await crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['decrypt']);
+  const b = new Uint8Array(await (await fetch('app.bin')).arrayBuffer());
+  return new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b.slice(0, 12) }, k, b.slice(12)));
+}
+function lancer(html) { document.open(); document.write(html); document.close(); }
+const msg = document.getElementById('msg'), f = document.getElementById('f');
+function demander(t) { msg.textContent = t; f.hidden = false; document.getElementById('code').focus(); }
+(async () => {
+  let s = null; try { s = localStorage.getItem('rallyeCle'); } catch (e) {}
+  if (s) { try { lancer(await dechiffrer(b64(s))); return; } catch (e) { demander('Le code a changé : retapez-le.'); return; } }
+  demander('Entrez le code d\'accès. Il ne sera demandé qu\'une fois sur cet appareil.');
+})();
+f.onsubmit = async e => {
+  e.preventDefault(); msg.textContent = 'Ouverture…';
+  try {
+    const raw = await deriver(document.getElementById('code').value.trim());
+    const html = await dechiffrer(raw);
+    try { localStorage.setItem('rallyeCle', btoa(String.fromCharCode(...raw))); } catch (e) {}
+    lancer(html);
+  } catch (err) { demander(navigator.onLine === false && !(await caches.has('rallye-v2')) ? 'Hors ligne : ouvrez l\'appli une première fois avec internet.' : 'Code incorrect, réessayez.'); }
+};
+</script></body></html>

@@ -24,11 +24,11 @@
   <section id="setup" class="screen" aria-labelledby="welcome-title">
     <h2 id="welcome-title">Prêt pour le rallye ?</h2>
     <p class="lead">Révise les indices visuels, avance à ton rythme et retrouve les réponses à revoir à la fin.</p>
-    <label class="field-label" for="category">Choisir un thème</label>
-    <select id="category"><option value="all">Toutes les matières</option><optgroup label="Matériels terrestres"><option value="vehicules">Véhicules blindés</option><option value="armes">Armes</option><option value="munitions">Missiles et munitions</option></optgroup><optgroup label="Matériels aériens"><option value="aeronefs">Aéronefs</option><option value="drones">Drones</option></optgroup></select>
+    <label class="field-label" for="category">Choisir une matière</label>
+    <select id="category"><option value="all">Toutes les matières</option><optgroup label="TRANS — Transmissions"><option disabled>Contenus à ajouter</option></optgroup><optgroup label="NBC — Nucléaire, biologique, chimique"><option disabled>Contenus à ajouter</option></optgroup><optgroup label="TAM — Tir, Armement, Munitions"><option value="armes">Armes</option><option value="munitions">Missiles et munitions</option></optgroup><optgroup label="IDENTIF — Identification"><option value="vehicules">Blindés terrestres</option><option value="aeronefs">Avions et hélicoptères</option><option value="drones">Drones</option></optgroup><optgroup label="SAN — Secourisme"><option disabled>Contenus à ajouter</option></optgroup></select>
     <label class="check-row"><input id="shuffle" type="checkbox" checked> Mélanger les questions et les choix</label>
     <button id="start" class="primary full">Commencer l’entraînement <span aria-hidden="true">→</span></button>
-    <button id="open-vehicles" class="secondary full mode-link">Identification visuelle — véhicules</button><button id="open-lesson" class="secondary full mode-link">Leçon guidée — tous les matériels</button>
+    <button id="open-vehicles" class="secondary full mode-link">Identification visuelle — véhicules</button><button id="open-lesson" class="secondary full mode-link">Leçon guidée — tous les matériels</button><a class="secondary full mode-link" style="display:block;text-align:center;text-decoration:none" href="bibliotheque-materiels.html">Bibliothèque de photos par matière</a>
     <p id="best-score" class="saved" aria-live="polite"></p>
   </section>
   <section id="vehicles" class="screen" hidden aria-labelledby="vehicles-title">
@@ -128,6 +128,7 @@ const bank=[
  {category:'drones',topic:'Drones',visual:'skylark3',question:'Quel indice aide à distinguer le Skylark 3 du Skylark 1 ?',options:['Le Skylark 3 est le modèle plus grand de la famille','Le Skylark 3 possède quatre réacteurs','Le Skylark 3 est un hélicoptère lourd','Le Skylark 3 est un blindé'],answer:0,explanation:'Les deux sont des drones légers à voilure fixe ; le Skylark 3 est la plateforme de plus grande taille.'},
  {category:'munitions',topic:'Missiles et munitions',visual:'harpy',question:'Quel système IAI possède une silhouette delta et appartient aux munitions rôdeuses ?',options:['IAI Harpy','Hermes 450','Skylark 1','C-130 Hercules'],answer:0,explanation:'Le Harpy est une munition rôdeuse anti-radiation. Sa silhouette compacte en aile delta le distingue des drones de surveillance à longue aile.'},
  {category:'munitions',topic:'Missiles et munitions',visual:'firefly',question:'Quel système compact de la liste est le Spike FireFly ?',options:['Une munition rôdeuse compacte à plusieurs rotors','Un avion de transport à quatre hélices','Un fusil à verrou','Un blindé du génie'],answer:0,explanation:'Le Spike FireFly est une munition rôdeuse compacte à décollage vertical. Sa silhouette multi-rotor le différencie des drones à aile fixe.'}
+ {category:'munitions',topic:'TAM — missiles',visual:'tow',question:'Quel matériel de ta liste est le missile antichar BGM-71 TOW ?',options:['BGM-71 TOW','MATADOR','Spike FireFly','IAI Harpy'],answer:0,explanation:'Le TOW est le missile antichar guidé de ta liste. Le MATADOR est une arme anti-structure, FireFly un petit système téléopéré et Harpy une munition rôdeuse anti-radar.'},
 ];
 const extraSpecs={
  m82:['Barrett M82','Fusil semi-automatique long : repère le frein de bouche et le gabarit massif.','<path d="M50 90H390L430 82 440 98 390 106H50Z"/><path d="M390 88H520V101H390Z"/><path d="M180 105 196 145H220L212 105Z"/><path d="M64 79 75 60H260V79Z"/>','<text x="365" y="48">frein de bouche</text>'],

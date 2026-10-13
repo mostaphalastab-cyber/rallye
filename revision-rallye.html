@@ -10,6 +10,15 @@
     *{box-sizing:border-box}body{margin:0;min-height:100vh;padding:24px 16px;background:radial-gradient(ellipse at 50% -20%,#30412a 0,transparent 48%),var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;display:grid;place-items:center}
     button,select{font:inherit}button{cursor:pointer}.app{width:min(100%,760px);background:rgba(24,35,27,.96);border:1px solid var(--line);border-radius:22px;padding:clamp(20px,5vw,38px);box-shadow:0 24px 80px #0006}
     .brand{display:flex;align-items:center;gap:14px;margin-bottom:28px}.mark{display:grid;place-items:center;width:48px;height:48px;border-radius:15px;background:#2b3e2b;color:var(--green);font-size:23px}.eyebrow{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);font-weight:750}.brand h1{font-size:1.25rem;margin:2px 0 0}.screen[hidden]{display:none!important}
+.menu-grid,.matter-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:24px 0}
+.menu-card,.matter-card{display:grid;gap:10px;text-align:left;padding:19px;border:1px solid var(--line);border-radius:16px;background:var(--panel2);color:var(--ink);font:inherit;cursor:pointer;transition:transform .15s,border-color .15s}
+.menu-card:hover,.matter-card button:hover{border-color:var(--green);transform:translateY(-2px)}
+.menu-card strong{font-size:1.3rem;color:var(--green2)}.menu-card span:last-child,.matter-card p{color:var(--muted);font-size:.95rem}
+.menu-number{font-size:.76rem;color:var(--gold);letter-spacing:.12em;font-weight:800}
+.matter-card h3{margin:0;color:var(--green2);font-size:1.1rem}.matter-card button{border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:#17221a;color:var(--ink);font:inherit;text-align:left;cursor:pointer;margin-top:5px}
+.matter-card button:disabled{opacity:.48;cursor:not-allowed}
+.option.selected{border-color:var(--gold);background:#403b25}
+@media(max-width:520px){.menu-grid,.matter-grid{grid-template-columns:1fr}}
     h2{font-size:clamp(1.5rem,5vw,2.1rem);line-height:1.2;margin:0 0 10px}.lead{color:var(--muted);margin:0 0 24px}.field-label{display:block;font-weight:650;margin:22px 0 8px}select{width:100%;padding:13px 14px;background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:12px}
     .check-row{display:flex;gap:10px;align-items:center;margin:16px 0 24px;color:var(--muted)}input[type=checkbox]{accent-color:var(--green);width:18px;height:18px}.primary,.secondary{border:0;border-radius:12px;padding:13px 18px;font-weight:750}.primary{background:var(--green);color:#172016}.primary:hover{background:var(--green2)}.secondary{background:var(--panel2);border:1px solid var(--line);color:var(--ink)}.full{width:100%}.saved{color:var(--muted);font-size:.9rem;margin-top:16px}
     .topline{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--muted);font-size:.92rem}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 11px;color:var(--green2);font-size:.83rem}.track{height:8px;background:#29362a;border-radius:99px;overflow:hidden;margin:13px 0 28px}.track span{height:100%;display:block;width:0;background:var(--green);transition:width .25s}.question{font-size:clamp(1.15rem,3vw,1.4rem);font-weight:700;line-height:1.45;margin:0 0 20px}.options{display:grid;gap:10px}.option{display:flex;align-items:flex-start;gap:12px;text-align:left;width:100%;padding:14px 15px;border-radius:13px;border:1px solid var(--line);background:#202d23;color:var(--ink);transition:.16s}.option:hover:not(:disabled){border-color:var(--green);transform:translateY(-1px)}.option:focus-visible,.primary:focus-visible,.secondary:focus-visible{outline:3px solid var(--gold);outline-offset:3px}.letter{flex:0 0 28px;height:28px;display:grid;place-items:center;border-radius:8px;background:#334333;color:var(--green2);font-weight:750;font-size:.84rem}.option.correct{border-color:#81bf6a;background:#233b27}.option.correct .letter{background:#42713d;color:white}.option.incorrect{border-color:#dc7163;background:#402725}.option.incorrect .letter{background:#903f36;color:white}.option:disabled{cursor:default}.explanation{margin-top:16px;padding:15px 16px;border-left:3px solid var(--green);background:#202d23;border-radius:4px 12px 12px 4px;color:#e0e8db}.explanation[hidden]{display:none}.actions{display:flex;gap:10px;margin-top:18px}.actions .primary{flex:1}.end-head{text-align:center;padding:8px 0 24px}.score{font-size:3rem;line-height:1.1;font-weight:800;color:var(--green);margin:10px 0}.result-note{color:var(--muted);margin:0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 25px}.stat{padding:14px 10px;text-align:center;background:var(--panel2);border:1px solid var(--line);border-radius:13px}.stat strong{display:block;font-size:1.25rem}.stat span{font-size:.8rem;color:var(--muted)}.review-title{margin:20px 0 10px;font-size:1rem}.review{border-top:1px solid var(--line);padding:13px 0}.review strong{display:block;margin-bottom:4px}.review p{margin:3px 0;color:var(--muted);font-size:.92rem}.review .right{color:var(--green2)}.review .wrong{color:var(--red)}.end-actions{display:flex;gap:10px;margin-top:22px}.end-actions>*{flex:1}.empty{color:var(--muted);padding:15px 0}
@@ -22,15 +31,24 @@
 <main class="app">
   <header class="brand"><div class="mark" aria-hidden="true">✦</div><div><div class="eyebrow">Entraînement visuel</div><h1>Révision Rallye</h1></div></header>
   <section id="setup" class="screen" aria-labelledby="welcome-title">
-    <h2 id="welcome-title">Prêt pour le rallye ?</h2>
-    <p class="lead">Révise les indices visuels, avance à ton rythme et retrouve les réponses à revoir à la fin.</p>
-    <label class="field-label" for="category">Choisir une matière</label>
-    <select id="category"><option value="all">Toutes les matières</option><optgroup label="TRANS — Transmissions"><option disabled>Contenus à ajouter</option></optgroup><optgroup label="NBC — Nucléaire, biologique, chimique"><option disabled>Contenus à ajouter</option></optgroup><optgroup label="TAM — Tir, Armement, Munitions"><option value="armes">Armes</option><option value="munitions">Missiles et munitions</option></optgroup><optgroup label="IDENTIF — Identification"><option value="vehicules">Blindés terrestres</option><option value="aeronefs">Avions et hélicoptères</option><option value="drones">Drones</option></optgroup><optgroup label="SAN — Secourisme"><option disabled>Contenus à ajouter</option></optgroup></select>
-    <label class="check-row"><input id="shuffle" type="checkbox" checked> Mélanger les questions et les choix</label>
-    <button id="start" class="primary full">Commencer l’entraînement <span aria-hidden="true">→</span></button>
-    <button id="open-vehicles" class="secondary full mode-link">Identification visuelle — véhicules</button><button id="open-lesson" class="secondary full mode-link">Leçon guidée — tous les matériels</button><a class="secondary full mode-link" style="display:block;text-align:center;text-decoration:none" href="bibliotheque-materiels.html">Bibliothèque de photos par matière</a>
-    <p id="best-score" class="saved" aria-live="polite"></p>
-  </section>
+  <div class="eyebrow">Révision Rallye</div><h2 id="welcome-title">Que veux-tu faire ?</h2>
+  <p class="lead">Choisis un parcours. Les matières sont rangées pareil dans chaque parcours.</p>
+  <div class="menu-grid">
+    <button class="menu-card" data-mode="learn"><span class="menu-number">01</span><strong>Apprendre</strong><span>Leçons simples et indices pour reconnaître chaque matériel.</span></button>
+    <button class="menu-card" data-mode="revise"><span class="menu-number">02</span><strong>Réviser</strong><span>Questions d’entraînement avec correction immédiate.</span></button>
+    <button class="menu-card" data-mode="evaluate"><span class="menu-number">03</span><strong>Évaluation</strong><span>Test sans aide pendant les questions, corrigé à la fin.</span></button>
+  </div>
+  <p id="best-score" class="saved" aria-live="polite"></p>
+  <a class="secondary full mode-link" style="display:block;text-align:center;text-decoration:none;margin-top:12px" href="bibliotheque-materiels.html">Bibliothèque de photos des matériels</a>
+  <input id="shuffle" type="checkbox" checked hidden>
+</section>
+<section id="matter-menu" class="screen" hidden aria-labelledby="matter-title">
+  <button id="back-home" class="secondary">← Accueil</button>
+  <div class="eyebrow" id="mode-eyebrow"></div><h2 id="matter-title">Choisis une matière</h2>
+  <p class="lead" id="matter-intro"></p>
+  <div id="matter-list" class="matter-grid"></div>
+  <p class="notice">TRANS, NBC et SAN n’ont pas encore de contenus fournis dans ta liste. Les rubriques sont visibles, sans inventer des questions.</p>
+</section>
   <section id="vehicles" class="screen" hidden aria-labelledby="vehicles-title">
     <div class="eyebrow">Entraînement prioritaire</div><h2 id="vehicles-title">Identification des véhicules</h2>
     <p class="lead">Observe d’abord la silhouette, puis ouvre les indices. Les photos restent visibles pendant le quiz spécial.</p>
@@ -77,7 +95,7 @@
       <li><strong>IAI Harpy</strong><p>Une munition rôdeuse à silhouette d’aile delta, différente d’un drone de surveillance à longue aile.</p><p class="memory">Mémo : Harpy = triangle compact.</p></li>
       <li><strong>Spike FireFly</strong><p>Un système compact à décollage vertical, avec plusieurs petits rotors.</p><p class="memory">Mémo : FireFly = plusieurs rotors, format compact.</p></li>
     </ul></div>
-    <p class="lesson-note">Une ligne du carnet semble indiquer « BGT 7100 » ou un nom proche. Je ne l’ai pas transformée en question sans être sûr de la lecture.</p>
+    <p class="lesson-note">Le nom de ta liste est corrigé en missile BGM-71 TOW.</p>
     <button id="lesson-practice" class="primary full">M’entraîner avec des images →</button>
     <button id="back-from-lesson" class="secondary full mode-link">Retour aux matières</button>
   </section>
@@ -159,7 +177,7 @@ const $=id=>document.getElementById(id);let deck=[],index=0,score=0,history=[],l
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function show(id){document.querySelectorAll('.screen').forEach(x=>x.hidden=x.id!==id)}
 function updateBest(){try{const b=JSON.parse(localStorage.getItem('revisionRallyeBest')||'{}');$('best-score').textContent=b.count?`Ton meilleur score : ${b.count}/${b.total} (${Math.round(b.count/b.total*100)} %).`:''}catch{$('best-score').textContent=''}}
-function start(mode='selected',wrongOnly=false){let chosen=wrongOnly?history.filter(x=>!x.correct).map(x=>x.item):bank.filter(q=>mode==='all'||q.category===mode);if(!chosen.length)return;const mix=$('shuffle').checked;if(mix)shuffle(chosen);deck=chosen.map(q=>{const order=q.options.map((_,i)=>i);if(mix)shuffle(order);return {...q,answer:order.indexOf(q.answer),options:order.map(i=>q.options[i])}});index=0;score=0;history=[];show('quiz');load()}
+function start(mode='all',wrongOnly=false,assessment=false){evaluationMode=assessment;let chosen=wrongOnly?history.filter(x=>!x.correct).map(x=>x.item):bank.filter(q=>mode==='all'||(Array.isArray(mode)?mode.includes(q.category):q.category===mode));if(!chosen.length)return;const mix=$('shuffle').checked;if(mix)shuffle(chosen);deck=chosen.map(q=>{const order=q.options.map((_,i)=>i);if(mix)shuffle(order);return {...q,answer:order.indexOf(q.answer),options:order.map(i=>q.options[i])}});index=0;score=0;history=[];show('quiz');load()}
 function renderVisual(type){const box=$('visual');if(!type){box.hidden=true;box.replaceChildren();return}const diagrams={
 glock:{label:'Silhouette schématique de pistolet avec carcasse et sûreté de détente mises en évidence',caption:'Repères extérieurs simplifiés : carcasse et sûreté intégrée à la détente.',svg:'<svg class="weapon-diagram" viewBox="0 0 560 190" role="img" aria-label="Silhouette schématique de pistolet"><path class="diagram-body" d="M92 61Q92 49 106 49H352Q369 49 378 62L397 83H459Q470 83 470 96V110H378L367 119H321L314 131H277L269 121H183L176 133H150L145 120H113Q98 120 96 107Z"/><path class="diagram-dark" d="M112 121H209L223 145 216 174Q214 181 205 181H168Q161 181 158 173L147 142H121Z"/><path class="diagram-dark" d="M250 120Q277 120 278 139Q279 151 265 157L256 148Q266 142 260 136H237Z"/><path class="diagram-line" d="M306 72H441M323 60H356M142 91H181"/><path class="callout-line" d="M266 144L338 164H428"/><circle class="callout" cx="266" cy="144" r="7"/><text class="diagram-label" x="435" y="168">sûreté de détente</text><path class="callout-line" d="M187 154L151 163H78"/><circle class="callout secondary" cx="187" cy="154" r="7"/><text class="diagram-label" x="8" y="168">carcasse polymère</text></svg>'},
 fnmag:{label:'Silhouette schématique de mitrailleuse avec poignée et couvercle supérieur mis en évidence',caption:'Repères extérieurs simplifiés : poignée de transport et couvercle supérieur.',svg:'<svg class="weapon-diagram" viewBox="0 0 560 190" role="img" aria-label="Silhouette schématique de mitrailleuse"><path class="diagram-body" d="M76 88H172L197 76H325L351 85H443V103H352L330 113H198L173 105H76Z"/><path class="diagram-dark" d="M80 89 42 71 27 78 59 103 35 121 51 129 91 108Z"/><path class="diagram-dark" d="M192 74 201 59H319L332 75Z"/><path class="diagram-line" d="M327 94H507M218 116 208 157M305 116 327 156M206 157H337"/><path class="diagram-dark" d="M226 58Q233 31 255 31H276Q298 31 303 58Z"/><path class="callout-line" d="M264 36V17H382"/><circle class="callout" cx="264" cy="36" r="7"/><text class="diagram-label" x="389" y="21">poignée transport</text><path class="callout-line" d="M260 70V142H401"/><circle class="callout secondary" cx="260" cy="70" r="7"/><text class="diagram-label" x="408" y="147">couvercle supérieur</text></svg>'},
@@ -169,9 +187,58 @@ puma:{label:'Silhouette schématique de véhicule blindé du génie à chenilles
 eitan:{label:'Silhouette schématique de véhicule blindé à huit roues avec roues mises en évidence',caption:'Schéma simplifié, pas à l’échelle : repère les roues, par contraste avec les chenilles du Namer.',svg:'<svg class="vehicle-diagram" viewBox="0 0 560 190" role="img" aria-label="Silhouette schématique de l’Eitan"><path class="diagram-body" d="M70 85 104 58 167 47H377L432 61 476 91V115H70Z"/><path class="diagram-dark" d="M128 57 144 35H183L193 57ZM252 47 265 31H306L319 47Z"/><path class="diagram-line" d="M83 121H466"/><circle class="diagram-wheel" cx="146" cy="119" r="18"/><circle class="diagram-wheel" cx="242" cy="119" r="18"/><circle class="diagram-wheel" cx="338" cy="119" r="18"/><circle class="diagram-wheel" cx="434" cy="119" r="18"/><path class="callout-line" d="M258 119 210 162H94"/><circle class="callout" cx="258" cy="119" r="7"/><text class="diagram-label" x="18" y="169">4 roues visibles • configuration 8×8</text><path class="callout-line" d="M395 72 438 39H508"/><circle class="callout secondary" cx="395" cy="72" r="7"/><text class="diagram-label" x="444" y="35">blindé à roues</text></svg>'}};
 const d=diagrams[type]||extraDiagrams[type];if(!d){box.hidden=true;box.replaceChildren();return}box.hidden=false;const photos={namer:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Namer_IFV_1.jpg/960px-Namer_IFV_1.jpg',eitan:'https://upload.wikimedia.org/wikipedia/commons/b/bb/Eitan_apc_side_view.webp',achzarit:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Achzarit.jpg/960px-Achzarit.jpg',puma:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/IDF-Puma-by-Zachi-Evenor.jpg/960px-IDF-Puma-by-Zachi-Evenor.jpg'};const photo=photos[type]?'<img class="vehicle-photo" loading="lazy" decoding="async" src="'+photos[type]+'" alt="Photo de référence : '+type+'" referrerpolicy="no-referrer">':'';box.innerHTML='<p class="visual-heading"><span aria-hidden="true"></span>Illustration hors ligne et repères animés</p>'+photo+d.svg+'<p class="diagram-caption">'+d.caption+'</p>'}
 function load(){locked=false;const q=deck[index];$('counter').textContent=`Question ${index+1} sur ${deck.length}`;$('topic').textContent=q.topic;$('question-text').textContent=q.question;$('progress').style.width=`${index/deck.length*100}%`;document.querySelector('.track').setAttribute('aria-valuenow',String(Math.round(index/deck.length*100)));renderVisual(q.visual);$('explanation').hidden=true;$('next').hidden=true;$('next').textContent=index===deck.length-1?'Voir mon résultat →':'Question suivante →';$('options').replaceChildren(...q.options.map((label,n)=>{const b=document.createElement('button');b.className='option';b.innerHTML=`<span class="letter">${String.fromCharCode(65+n)}</span><span></span>`;b.lastElementChild.textContent=label;b.addEventListener('click',()=>answer(n));return b}));$('question-text').focus({preventScroll:true})}
-function answer(n){if(locked)return;locked=true;const q=deck[index],ok=n===q.answer;if(ok)score++;history.push({item:q,selected:n,correct:ok});const buttons=$('options').children;for(let i=0;i<buttons.length;i++){buttons[i].disabled=true;if(i===q.answer)buttons[i].classList.add('correct');else if(i===n)buttons[i].classList.add('incorrect')}$('explanation').innerHTML='';const strong=document.createElement('strong');strong.textContent=ok?'Bonne réponse. ':'À retenir. ';$('explanation').append(strong,document.createTextNode(q.explanation));$('explanation').hidden=false;$('next').hidden=false;$('next').focus()}
+function answer(n){if(locked)return;locked=true;const q=deck[index],ok=n===q.answer;if(ok)score++;history.push({item:q,selected:n,correct:ok});const buttons=$('options').children;for(let i=0;i<buttons.length;i++){buttons[i].disabled=true;if(i===q.answer)buttons[i].classList.add('correct');else if(i===n)buttons[i].classList.add('incorrect')}if(evaluationMode){buttons[n].classList.add('selected');$('explanation').hidden=true;$('next').hidden=false;$('next').focus();return}$('explanation').innerHTML='';const strong=document.createElement('strong');strong.textContent=ok?'Bonne réponse. ':'À retenir. ';$('explanation').append(strong,document.createTextNode(q.explanation));$('explanation').hidden=false;$('next').hidden=false;$('next').focus()}
 function finish(){show('results');$('score').textContent=`${score} / ${deck.length}`;$('correct-count').textContent=score;$('wrong-count').textContent=deck.length-score;$('percent').textContent=`${Math.round(score/deck.length*100)} %`;$('result-title').textContent=score===deck.length?'Sans faute !':score/deck.length>=.7?'Très bon travail !':'Continue ta révision';$('result-note').textContent=score===deck.length?'Tous les indices sont bien identifiés.':'Consulte les explications puis entraîne-toi à nouveau.';$('review').replaceChildren(...history.map((r,i)=>{const row=document.createElement('article');row.className='review';const title=document.createElement('strong');title.textContent=`${i+1}. ${r.item.question}`;const state=document.createElement('p');state.className=r.correct?'right':'wrong';state.textContent=r.correct?'✓ Bonne réponse':`✗ Ta réponse : ${r.item.options[r.selected]}`;const answerLine=document.createElement('p');answerLine.textContent=`Réponse : ${r.item.options[r.item.answer]}`;const exp=document.createElement('p');exp.textContent=r.item.explanation;row.append(title,state,answerLine,exp);return row}));$('retry-wrong').hidden=score===deck.length;try{const old=JSON.parse(localStorage.getItem('revisionRallyeBest')||'{}');if(score>(old.count||0)||deck.length>(old.total||0))localStorage.setItem('revisionRallyeBest',JSON.stringify({count:score,total:deck.length}));}catch{}}
-$('start').addEventListener('click',()=>start($('category').value));$('open-vehicles').addEventListener('click',()=>{show('vehicles');document.querySelectorAll('#vehicles img').forEach(i=>i.loading='eager')});$('open-lesson').addEventListener('click',()=>show('lesson'));$('back-from-lesson').addEventListener('click',()=>show('setup'));$('lesson-practice').addEventListener('click',()=>start('all'));$('back-from-vehicles').addEventListener('click',()=>show('setup'));$('start-vehicle-quiz').addEventListener('click',()=>{show('quiz');start('vehicules')});$('next').addEventListener('click',()=>{if(index+1<deck.length){index++;load()}else finish()});$('quit').addEventListener('click',()=>show('setup'));$('restart').addEventListener('click',()=>{show('setup');updateBest()});$('retry-wrong').addEventListener('click',()=>start('selected',true));document.addEventListener('keydown',e=>{if($('quiz').hidden||locked||!['1','2','3','4','a','b','c','d'].includes(e.key.toLowerCase()))return;const n='1234abcd'.indexOf(e.key.toLowerCase())%4;if(n<deck[index].options.length)$('options').children[n].click()});updateBest();
+const matterSets=[
+ {code:'TRANS',name:'TRANS — Transmissions',empty:'Aucun matériel de transmission fourni.'},
+ {code:'NBC',name:'NBC — Nucléaire, biologique, chimique',empty:'Aucun contenu NBC fourni.'},
+ {code:'TAM',name:'TAM — Tir, Armement, Munitions',subs:[{label:'Armes',cats:['armes']},{label:'Missiles et munitions',cats:['munitions']}]},
+ {code:'IDENTIF',name:'IDENTIF — Identification',subs:[{label:'Blindés terrestres',cats:['vehicules']},{label:'Avions et hélicoptères',cats:['aeronefs']},{label:'Drones',cats:['drones']}]},
+ {code:'SAN',name:'SAN — Secourisme',empty:'Aucun contenu SAN fourni.'}
+];
+let currentMode='learn',currentCategories='all',evaluationMode=false;
+function showMatterMenu(mode){
+ currentMode=mode;show('matter-menu');
+ const labels={learn:['APPRENDRE','Choisis ce que tu veux apprendre.'],revise:['RÉVISER','Choisis une matière pour t’entraîner avec les réponses expliquées.'],evaluate:['ÉVALUATION','Choisis une matière. Tu verras ton corrigé à la fin du test.']};
+ $('mode-eyebrow').textContent=labels[mode][0];$('matter-intro').textContent=labels[mode][1];
+ $('matter-list').innerHTML=matterSets.map(m=>'<article class="matter-card"><h3>'+m.name+'</h3>'+(m.subs?m.subs.map(x=>'<button type="button" data-cats="'+JSON.stringify(x.cats)+'" data-label="'+x.label+'">'+x.label+' →</button>').join(''):'<p>'+m.empty+'</p><button type="button" disabled>Contenu à ajouter</button>')+(m.code==='IDENTIF'?'<a class="photo-credit" href="bibliotheque-materiels.html">Ouvrir les photos de tous les matériels →</a><button type="button" data-open-vehicles>Comparer les blindés en photos →</button>':'')+'</article>').join('');
+}
+function showLearning(cats,label){
+ currentCategories=cats;
+ const topics=[...document.querySelectorAll('#lesson .lesson-topic')], selected=Array.isArray(cats)?cats:[cats];
+ const all=selected.length===5;
+ topics.forEach(section=>{
+   const title=section.querySelector('h3')?.textContent.toLowerCase()||'';
+   let keep=all;
+   if(!all){
+     keep=selected.some(c=>c==='vehicules'&&title.includes('véhicules')||c==='aeronefs'&&title.includes('avions')||c==='drones'&&title.includes('drones')||['armes','munitions'].includes(c)&&title.includes('armes'));
+     if(keep && title.includes('armes') && selected.length===1){
+       const cat=selected[0];
+       section.querySelectorAll('li').forEach(li=>{
+         const n=li.querySelector('strong')?.textContent.toLowerCase()||'';
+         li.hidden=cat==='armes'?!(/barrett|m24|matador/.test(n)):!(/tow|harpy|firefly/.test(n));
+       });
+     }
+   }
+   section.hidden=!keep;
+ });
+ document.getElementById('lesson-title').textContent='Apprendre — '+label;
+ show('lesson');
+}
+function beginFromMatter(cats,label){
+ currentCategories=cats;
+ if(currentMode==='learn'){showLearning(cats,label);return}
+ evaluationMode=currentMode==='evaluate';
+ start(cats,false,evaluationMode);
+}
+document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>showMatterMenu(b.dataset.mode)));
+$('back-home').addEventListener('click',()=>show('setup'));
+$('matter-list').addEventListener('click',e=>{const open=e.target.closest('[data-open-vehicles]');if(open){show('vehicles');document.querySelectorAll('#vehicles img').forEach(i=>i.loading='eager');return}const b=e.target.closest('[data-cats]');if(b)beginFromMatter(JSON.parse(b.dataset.cats),b.dataset.label)});
+$('back-from-lesson').addEventListener('click',()=>show('matter-menu'));
+$('lesson-practice').addEventListener('click',()=>{evaluationMode=false;start(currentCategories,false,false)});
+$('back-from-vehicles').addEventListener('click',()=>show('matter-menu'));
+$('start-vehicle-quiz').addEventListener('click',()=>{evaluationMode=false;start(['vehicules'],false,false)});
+$('next').addEventListener('click',()=>{if(index+1<deck.length){index++;load()}else finish()});$('quit').addEventListener('click',()=>show('setup'));$('restart').addEventListener('click',()=>{show('setup');updateBest()});$('retry-wrong').addEventListener('click',()=>start('selected',true));document.addEventListener('keydown',e=>{if($('quiz').hidden||locked||!['1','2','3','4','a','b','c','d'].includes(e.key.toLowerCase()))return;const n='1234abcd'.indexOf(e.key.toLowerCase())%4;if(n<deck[index].options.length)$('options').children[n].click()});updateBest();
 </script>
 </body>
 </html>

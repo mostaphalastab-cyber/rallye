@@ -64,7 +64,7 @@ function render(){
 }
 function card(x,i){
  const id='item-'+i+'-'+x.name.toLowerCase().replace(/[^a-z0-9]+/g,'-');
- const photos=x.photos.filter(p=>/^https?:/.test(p[0]));
+ const photos=x.photos.filter(p=>/^https?:/.test(p[0])||p[0].startsWith('./images/identif/'));
  const photo=photos.length?'<div class="photo-grid">'+photos.map(p=>'<figure><img loading="lazy" alt="'+safe(x.name+' — '+p[1])+'" src="'+safe(p[0])+'"><figcaption>'+safe(p[1])+' · <a href="'+safe(p[0])+'" target="_blank" rel="noopener">Source</a></figcaption></figure>').join('')+'</div>':'';
  const flag=photos.length?'':'<p class="missing">'+safe(x.name.indexOf('Harpy')>=0?'Photo exacte à ajouter après vérification auprès du constructeur.':'Nom à confirmer avant d’ajouter des photos.')+(x.source?' <a href="'+safe(x.source)+'" target="_blank" rel="noopener">Voir la fiche constructeur</a>':'')+'</p>';
  return '<article class="item" id="'+safe(id)+'" data-group="'+safe(x.group)+'" data-name="'+safe(x.name)+'"><header class="item-head"><span class="pill">'+safe(x.alias)+'</span><h2>'+safe(x.name)+'</h2><p>'+safe(x.cue)+'</p></header>'+photo+flag+(x.source?'<p class="photo-caption"><a href="'+safe(x.source)+'" target="_blank" rel="noopener">Fiche de référence</a></p>':'')+'</article>'

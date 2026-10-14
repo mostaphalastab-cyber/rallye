@@ -13,11 +13,10 @@ h1{font-size:1.4rem;margin:.4em 0}
 input{font:inherit;width:100%;box-sizing:border-box;padding:12px;border-radius:9px;border:1px solid var(--ligne);background:var(--fond);color:var(--texte);margin:10px 0}
 button{font:inherit;font-weight:700;width:100%;padding:12px;border-radius:9px;border:0;background:var(--accent);color:#fff}
 #msg{color:var(--doux)}
-.identif{display:block;margin-top:18px;padding:12px;border:1px solid var(--or);border-radius:9px;color:#f1cf78;text-decoration:none;font-weight:700}
 </style></head><body>
 <main><img src="icone-192.png" width="88" height="88" alt=""><h1>Entraînement rallye</h1>
 <p id="msg">Chargement…</p>
-<form id="f" hidden><label for="code">Code d'accès</label><input id="code" type="password" autocomplete="current-password" autocapitalize="none" spellcheck="false"><button>Ouvrir</button></form><a class="identif" href="revision-rallye.html">Réviser par matières — TRANS · NBC · TAM · IDENTIF · SAN</a></main>
+<form id="f" hidden><label for="code">Code d'accès</label><input id="code" type="password" autocomplete="current-password" autocapitalize="none" spellcheck="false"><button>Ouvrir</button></form></main>
 <script>
 const SEL = 'ebMOCBjrUThqmdBQR2GLeQ==', ITER = 200000;
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
@@ -50,6 +49,6 @@ f.onsubmit = async e => {
     const html = await dechiffrer(raw);
     try { localStorage.setItem('rallyeCle', btoa(String.fromCharCode(...raw))); } catch (e) {}
     lancer(html);
-  } catch (err) { demander(navigator.onLine === false && !(await caches.has('rallye-v2')) ? 'Hors ligne : ouvrez l\'appli une première fois avec internet.' : 'Code incorrect, réessayez.'); }
+  } catch (err) { demander(navigator.onLine === false && !(await caches.has('rallye-v5')) ? 'Hors ligne : ouvrez l\'appli une première fois avec internet.' : 'Code incorrect, réessayez.'); }
 };
 </script></body></html>

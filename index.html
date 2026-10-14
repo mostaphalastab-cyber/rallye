@@ -18,7 +18,7 @@ button.sec{background:#20241e;border:1px solid var(--or);color:#f1cf78;margin-to
 #pAide ol{margin:.3em 0;padding-left:1.2em}
 </style></head><body>
 <main><img src="icone-192.png" width="88" height="88" alt=""><h1>Entraînement rallye</h1>
-<p style="color:var(--doux);font-size:.8rem;margin:0">version 14/10 18h06</p>
+<p style="color:var(--doux);font-size:.8rem;margin:0">version 14/10 18h16</p>
 <p id="msg">Ouverture de l'appli…</p>
 <noscript><p style="color:#e0b341"><b>Cette page doit être ouverte dans Chrome</b> : menu ⋮ ou ⋯ → « Ouvrir dans Chrome ».</p></noscript>
 <form id="f" hidden><label for="code">Code d'accès</label><input id="code" type="password" autocomplete="current-password" autocapitalize="none" spellcheck="false"><button>Ouvrir</button></form>
@@ -56,7 +56,7 @@ async function verifierMaj() {
     if (pEmpreinte && e !== pEmpreinte && b.length > 1000) { try { sessionStorage.setItem('rallyeMaj', '1'); } catch (er) {} location.reload(); }
   } catch (er) {}
 }
-function lancer(html) { pLance = true; document.open(); document.write(html.replace('__VERSION__', '14/10 18h06')); document.close(); if (navigator.onLine !== false) setTimeout(verifierMaj, 2500); }
+function lancer(html) { pLance = true; document.open(); document.write(html.replace('__VERSION__', '14/10 18h16')); document.close(); if (navigator.onLine !== false) setTimeout(verifierMaj, 2500); }
 const msg = document.getElementById('msg'), f = document.getElementById('f');
 // boutons toujours visibles : installer l'icône, réessayer si l'ouverture traîne
 const pInst = document.getElementById('pInst'), pAide = document.getElementById('pAide'), pReess = document.getElementById('reessayer');

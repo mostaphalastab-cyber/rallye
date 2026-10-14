@@ -15,7 +15,7 @@ button{font:inherit;font-weight:700;width:100%;padding:12px;border-radius:9px;bo
 #msg{color:var(--doux)}
 </style></head><body>
 <main><img src="icone-192.png" width="88" height="88" alt=""><h1>Entraînement rallye</h1>
-<p id="msg">Chargement…</p><p style="color:var(--doux);font-size:.8rem;margin:0">version 14/10 16h22</p>
+<p id="msg">Chargement…</p><p style="color:var(--doux);font-size:.8rem;margin:0">version 14/10 17h58</p>
 <form id="f" hidden><label for="code">Code d'accès</label><input id="code" type="password" autocomplete="current-password" autocapitalize="none" spellcheck="false"><button>Ouvrir</button></form></main>
 <script>
 const SEL = 'ebMOCBjrUThqmdBQR2GLeQ==', ITER = 200000;
@@ -47,7 +47,7 @@ async function verifierMaj() {
     if (empreinte && e !== empreinte && b.length > 1000) { try { sessionStorage.setItem('rallyeMaj', '1'); } catch (er) {} location.reload(); }
   } catch (er) {}
 }
-function lancer(html) { document.open(); document.write(html.replace('__VERSION__', '14/10 16h22')); document.close(); if (navigator.onLine !== false) setTimeout(verifierMaj, 2500); }
+function lancer(html) { document.open(); document.write(html.replace('__VERSION__', '14/10 17h58')); document.close(); if (navigator.onLine !== false) setTimeout(verifierMaj, 2500); }
 const msg = document.getElementById('msg'), f = document.getElementById('f');
 function demander(t) { msg.textContent = t; f.hidden = false; document.getElementById('code').focus(); }
 (async () => {

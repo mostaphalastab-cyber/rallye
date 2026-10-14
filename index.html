@@ -13,15 +13,24 @@ h1{font-size:1.4rem;margin:.4em 0}
 input{font:inherit;width:100%;box-sizing:border-box;padding:12px;border-radius:9px;border:1px solid var(--ligne);background:var(--fond);color:var(--texte);margin:10px 0}
 button{font:inherit;font-weight:700;width:100%;padding:12px;border-radius:9px;border:0;background:var(--accent);color:#fff}
 #msg{color:var(--doux)}
+button.sec{background:#20241e;border:1px solid var(--or);color:#f1cf78;margin-top:12px}
+#pAide{text-align:left;font-size:.95rem;background:#0b0e0c;border-radius:9px;padding:10px 12px;margin-top:10px}
+#pAide ol{margin:.3em 0;padding-left:1.2em}
 </style></head><body>
 <main><img src="icone-192.png" width="88" height="88" alt=""><h1>Entraînement rallye</h1>
-<p id="msg">Chargement…</p><p style="color:var(--doux);font-size:.8rem;margin:0">version 14/10 17h58</p>
-<form id="f" hidden><label for="code">Code d'accès</label><input id="code" type="password" autocomplete="current-password" autocapitalize="none" spellcheck="false"><button>Ouvrir</button></form></main>
+<p style="color:var(--doux);font-size:.8rem;margin:0">version 14/10 18h06</p>
+<p id="msg">Ouverture de l'appli…</p>
+<noscript><p style="color:#e0b341"><b>Cette page doit être ouverte dans Chrome</b> : menu ⋮ ou ⋯ → « Ouvrir dans Chrome ».</p></noscript>
+<form id="f" hidden><label for="code">Code d'accès</label><input id="code" type="password" autocomplete="current-password" autocapitalize="none" spellcheck="false"><button>Ouvrir</button></form>
+<button id="reessayer" class="sec" hidden>↻ Réessayer</button>
+<button id="pInst" class="sec">📲 Mettre l'icône sur l'écran d'accueil</button>
+<div id="pAide" hidden><b>Pour avoir l'icône « Rallye » sur la tablette :</b><ol><li>Ouvre cette page dans <b>Chrome</b> (pas depuis WhatsApp).</li><li>Touche le menu <b>⋮</b> en haut à droite.</li><li>Choisis <b>« Installer l'application »</b> ou <b>« Ajouter à l'écran d'accueil »</b>, puis <b>« Installer »</b>.</li></ol>Si Chrome propose <b>« Ouvrir dans l'application »</b>, c'est qu'elle est déjà installée : cherche l'icône « Rallye » dans tes applis.<br>Samsung Internet : menu <b>☰</b> → <b>« Ajouter la page à »</b> → <b>« Écran d'accueil »</b>.</div></main>
 <script>
 const SEL = 'ebMOCBjrUThqmdBQR2GLeQ==', ITER = 200000;
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 // proposition d'installation gardée pour le bouton « Installer » de l'appli (l'événement peut arriver avant l'ouverture)
 window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); window.__installer = e; });
+document.addEventListener('click', ev => { if (ev.target && ev.target.id === 'pInst') return; if (!window.__installer || matchMedia('(display-mode: standalone)').matches) return; try { if (sessionStorage.getItem('rallyeInstProp')) return; sessionStorage.setItem('rallyeInstProp', '1'); } catch (er) {} const e = window.__installer; window.__installer = null; e.prompt(); }, true);
 if ('serviceWorker' in navigator) {
   let recharge = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => { if (!recharge && navigator.serviceWorker.controller) { recharge = true; location.reload(); } });
@@ -34,21 +43,28 @@ async function deriver(code) {
 async function dechiffrer(raw) {
   const k = await crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['decrypt']);
   const b = new Uint8Array(await (await fetch('app.bin', { cache: 'no-cache' })).arrayBuffer());
-  try { empreinte = new Uint8Array(await crypto.subtle.digest('SHA-256', b)).join(','); } catch (e) {}
+  try { pEmpreinte = new Uint8Array(await crypto.subtle.digest('SHA-256', b)).join(','); } catch (e) {}
   return new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b.slice(0, 12) }, k, b.slice(12)));
 }
-let empreinte = '';
+let pEmpreinte = '';
 // après l'ouverture : si une version plus récente est en ligne, le service worker la met en cache et on recharge
 async function verifierMaj() {
   try { if (sessionStorage.getItem('rallyeMaj')) { sessionStorage.removeItem('rallyeMaj'); return; } } catch (er) {}
   try {
     const b = new Uint8Array(await (await fetch('app.bin', { cache: 'no-store' })).arrayBuffer());
     const e = new Uint8Array(await crypto.subtle.digest('SHA-256', b)).join(',');
-    if (empreinte && e !== empreinte && b.length > 1000) { try { sessionStorage.setItem('rallyeMaj', '1'); } catch (er) {} location.reload(); }
+    if (pEmpreinte && e !== pEmpreinte && b.length > 1000) { try { sessionStorage.setItem('rallyeMaj', '1'); } catch (er) {} location.reload(); }
   } catch (er) {}
 }
-function lancer(html) { document.open(); document.write(html.replace('__VERSION__', '14/10 17h58')); document.close(); if (navigator.onLine !== false) setTimeout(verifierMaj, 2500); }
+function lancer(html) { pLance = true; document.open(); document.write(html.replace('__VERSION__', '14/10 18h06')); document.close(); if (navigator.onLine !== false) setTimeout(verifierMaj, 2500); }
 const msg = document.getElementById('msg'), f = document.getElementById('f');
+// boutons toujours visibles : installer l'icône, réessayer si l'ouverture traîne
+const pInst = document.getElementById('pInst'), pAide = document.getElementById('pAide'), pReess = document.getElementById('reessayer');
+if (matchMedia('(display-mode: standalone)').matches || navigator.standalone) pInst.hidden = true;
+pInst.onclick = async () => { if (window.__installer) { const e = window.__installer; window.__installer = null; e.prompt(); try { await e.userChoice; } catch (er) {} } else pAide.hidden = !pAide.hidden; };
+pReess.onclick = () => location.reload();
+let pLance = false;
+setTimeout(() => { if (!pLance && f.hidden) { msg.textContent = "L'ouverture est longue : vérifie internet (Wi-Fi), puis touche « Réessayer »."; pReess.hidden = false; } }, 15000);
 function demander(t) { msg.textContent = t; f.hidden = false; document.getElementById('code').focus(); }
 (async () => {
   let s = null; try { s = localStorage.getItem('rallyeCle'); } catch (e) {}

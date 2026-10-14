@@ -20,6 +20,8 @@ button{font:inherit;font-weight:700;width:100%;padding:12px;border-radius:9px;bo
 <script>
 const SEL = 'ebMOCBjrUThqmdBQR2GLeQ==', ITER = 200000;
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+// proposition d'installation gardée pour le bouton « Installer » de l'appli (l'événement peut arriver avant l'ouverture)
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); window.__installer = e; });
 if ('serviceWorker' in navigator) {
   let recharge = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => { if (!recharge && navigator.serviceWorker.controller) { recharge = true; location.reload(); } });

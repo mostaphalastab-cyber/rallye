@@ -15,7 +15,7 @@ button{font:inherit;font-weight:700;width:100%;padding:12px;border-radius:9px;bo
 #msg{color:var(--doux)}
 </style></head><body>
 <main><img src="icone-192.png" width="88" height="88" alt=""><h1>Entraînement rallye</h1>
-<p id="msg">Chargement…</p>
+<p id="msg">Chargement…</p><p style="color:var(--doux);font-size:.8rem;margin:0">version 14/10 16h22</p>
 <form id="f" hidden><label for="code">Code d'accès</label><input id="code" type="password" autocomplete="current-password" autocapitalize="none" spellcheck="false"><button>Ouvrir</button></form></main>
 <script>
 const SEL = 'ebMOCBjrUThqmdBQR2GLeQ==', ITER = 200000;
@@ -33,10 +33,21 @@ async function deriver(code) {
 }
 async function dechiffrer(raw) {
   const k = await crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['decrypt']);
-  const b = new Uint8Array(await (await fetch('app.bin')).arrayBuffer());
+  const b = new Uint8Array(await (await fetch('app.bin', { cache: 'no-cache' })).arrayBuffer());
+  try { empreinte = new Uint8Array(await crypto.subtle.digest('SHA-256', b)).join(','); } catch (e) {}
   return new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b.slice(0, 12) }, k, b.slice(12)));
 }
-function lancer(html) { document.open(); document.write(html); document.close(); }
+let empreinte = '';
+// après l'ouverture : si une version plus récente est en ligne, le service worker la met en cache et on recharge
+async function verifierMaj() {
+  try { if (sessionStorage.getItem('rallyeMaj')) { sessionStorage.removeItem('rallyeMaj'); return; } } catch (er) {}
+  try {
+    const b = new Uint8Array(await (await fetch('app.bin', { cache: 'no-store' })).arrayBuffer());
+    const e = new Uint8Array(await crypto.subtle.digest('SHA-256', b)).join(',');
+    if (empreinte && e !== empreinte && b.length > 1000) { try { sessionStorage.setItem('rallyeMaj', '1'); } catch (er) {} location.reload(); }
+  } catch (er) {}
+}
+function lancer(html) { document.open(); document.write(html.replace('__VERSION__', '14/10 16h22')); document.close(); if (navigator.onLine !== false) setTimeout(verifierMaj, 2500); }
 const msg = document.getElementById('msg'), f = document.getElementById('f');
 function demander(t) { msg.textContent = t; f.hidden = false; document.getElementById('code').focus(); }
 (async () => {
